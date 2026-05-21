@@ -108,8 +108,10 @@ These limitations are also documented on the [security page](https://sealedkeys.
 The encryption module is loaded as part of the Next.js application bundle. To verify that the live site runs this code:
 
 1. Open https://sealedkeys.com in a browser
-2. Open DevTools → Sources → search for `deriveVaultKey` or `sealedkeys_v1`
-3. The function body should match what you see here
+2. Open DevTools → Sources → search for `sealedkeys_v1`, `PBKDF2`, or `AES-GCM`
+   - Function names are minified in the production bundle, but string literals survive intact
+   - You should find `sealedkeys_v1` in the login, register, and vault page chunks
+3. The surrounding code should show PBKDF2 key derivation feeding into AES-GCM encrypt/decrypt operations, matching the implementation here
 
 Network inspection will confirm that only `encryptedData` (ciphertext) is sent to the API — never plaintext secret values.
 
